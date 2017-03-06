@@ -96,7 +96,6 @@ class PartyQueryObject
     ")
   end
 
-
   def self.a_z_letters_all
     self.uri_builder('
       PREFIX parl: <http://id.ukpds.org/schema/>

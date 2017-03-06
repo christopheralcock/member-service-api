@@ -132,8 +132,8 @@ class MemberQueryObject
          ?party parl:partyName ?partyName .
          ?partyMembership parl:partyMembershipStartDate ?partyMembershipStartDate .
          OPTIONAL { ?partyMembership parl:partyMembershipEndDate ?partyMembershipEndDate . }
-         }
-    	  FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+
+    	   FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
       }
     ")
   end
