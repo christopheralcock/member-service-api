@@ -3,36 +3,60 @@ Rails.application.routes.draw do
 
   get 'index', to: 'application#index', as: :index
 
+
+  # ignore for now as is index?
   get '/people/members', to: 'members#index'
+  # ignore for now as is people?
   match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
   get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
   get '/people/lookup', to: 'people#lookup'
   get '/people/a_z_letters', to: 'people#a_z_letters'
   get '/people/:letters', to: 'people#lookup_by_letters'
 
+  # done
   get '/people/members/current', to: 'members#current'
+  # done
   match '/people/members/:letter', to: 'members#letters', letter: /[A-Za-z]/, via: [:get]
+  # done
   get '/people/members/a_z_letters', to: 'members#a_z_letters'
+  # done
   match '/people/members/current/:letter', to: 'members#current_letters', letter: /[A-Za-z]/, via: [:get]
+  # done
   get '/people/members/current/a_z_letters', to: 'members#a_z_letters_current'
 
+  # done
   match '/constituencies/:constituency', to: 'constituencies#show', constituency: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+  # done
   match '/constituencies/:letter', to: 'constituencies#letters', letter: /[A-Za-z]/, via: [:get]
+  # done
   get '/constituencies/a_z_letters', to: 'constituencies#a_z_letters'
+  # done
   get '/constituencies/current', to: 'constituencies#current'
+  # done
   get '/constituencies/lookup', to: 'constituencies#lookup'
+  # done
   get '/constituencies/:letters', to: 'constituencies#lookup_by_letters'
+  # done
   match '/constituencies/current/:letter', to: 'constituencies#current_letters', letter: /[A-Za-z]/, via: [:get]
+  # done
   get '/constituencies/current/a_z_letters', to: 'constituencies#a_z_letters_current'
 
+  # done
   match '/parties/:party', to: 'parties#show', party: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+  # done
   get '/parties/:letter', to: 'parties#letters', letter: /[A-Za-z]/, via: [:get]
+  # done
   get '/parties/current', to: 'parties#current'
+  # done
   get '/parties/lookup', to: 'parties#lookup'
+  # done 
   get '/parties/a_z_letters', to: 'parties#a_z_letters_all'
+  # done
   get '/parties/current/a_z_letters', to: 'parties#a_z_letters_current'
+  # done
   get '/parties/:letters', to: 'parties#lookup_by_letters'
 
+  # done
   match '/houses/:house', to: 'houses#show', house: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
   get '/houses/lookup', to: 'houses#lookup'
   get '/houses/:letters', to: 'houses#lookup_by_letters'
