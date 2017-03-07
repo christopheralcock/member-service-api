@@ -1,16 +1,21 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # this is a placeholder that doesn't need implementing
   get 'index', to: 'application#index', as: :index
 
 
-  # ignore for now as is index?
+  # done
   get '/people/members', to: 'members#index'
-  # ignore for now as is people?
+  # done
   match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+  # done
   get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
+  # not done
   get '/people/lookup', to: 'people#lookup'
+  # not done
   get '/people/a_z_letters', to: 'people#a_z_letters'
+  # done
   get '/people/:letters', to: 'people#lookup_by_letters'
 
   # done
@@ -58,7 +63,9 @@ Rails.application.routes.draw do
 
   # done
   match '/houses/:house', to: 'houses#show', house: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
+  # done, but not actually actionable as far as I can tell
   get '/houses/lookup', to: 'houses#lookup'
+  # done 
   get '/houses/:letters', to: 'houses#lookup_by_letters'
 
   resources :people, only: [:index] do
