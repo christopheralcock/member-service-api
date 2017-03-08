@@ -381,27 +381,32 @@ class HouseQueryObject
     	    parl:count ?memberCount .
       }
        WHERE {
-        BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
+        SELECT ?party ?house ?houseName ?partyName (COUNT(?person) AS ?memberCount)
+    	  WHERE {
 
-         ?house parl:houseName ?houseName .
-         ?person a parl:Member .
-         ?incumbency parl:incumbencyHasMember ?person .
-         FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
-    		 ?person parl:partyMemberHasPartyMembership ?partyMembership .
-         FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
-    		 ?partyMembership parl:partyMembershipHasParty ?party .
-    		 ?party parl:partyName ?partyName .
+          BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-    		{
-    		    ?incumbency parl:houseIncumbencyHasHouse ?house .
-    		}
+          ?house parl:houseName ?houseName .
+          ?person a parl:Member .
+          ?incumbency parl:incumbencyHasMember ?person .
+          FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
+    		  ?person parl:partyMemberHasPartyMembership ?partyMembership .
+          FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
+    		  ?partyMembership parl:partyMembershipHasParty ?party .
+    		  ?party parl:partyName ?partyName .
 
-    		UNION {
-        		?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
-        		?seat parl:houseSeatHasHouse ?house .
-    		}
-       }
-     ")
+    		  {
+    		      ?incumbency parl:houseIncumbencyHasHouse ?house .
+    		  }
+
+    		  UNION {
+          		?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
+          		?seat parl:houseSeatHasHouse ?house .
+    		  }
+        }
+        GROUP BY ?party ?house ?houseName ?partyName
+      }
+    ")
   end
 
   def self.party(house_id, party_id)

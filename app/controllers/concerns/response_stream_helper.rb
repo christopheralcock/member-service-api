@@ -1,3 +1,5 @@
+require 'net/http'
+
 module ResponseStreamHelper
   def response_streamer(uri)
     response.content_type = 'application/n-triples'
