@@ -20,25 +20,29 @@ build:
 		--build-arg UKPDS_DATA_URI_PREFIX=$(UKPDS_DATA_URI_PREFIX) --build-arg UKPDS_DATA_ENDPOINT=$(UKPDS_DATA_ENDPOINT) \
 		.
 
-# Container port 3000 is specified in Dockerfile
-# Browse to http://localhost:80 to see the application
-run:
-	docker run -p 80:3000 $(IMAGE)
+# Container port 3000 is specified in the Dockerfile
+CONTAINER_PORT = 3000
+# Host port of 80 can be changed to any value but remember the app URL would be http://localhost:<host-port>
+HOST_PORT = 80
+
+run: build
+	docker run --rm -p $(HOST_PORT):$(CONTAINER_PORT) $(IMAGE)
 
 dev:
-	docker run -p 80:3000 -v ${PWD}:/opt/$(APP_NAME) $(IMAGE)
+	docker run --rm -p $(HOST_PORT):$(CONTAINER_PORT) -v ${PWD}:/opt/$(APP_NAME) $(IMAGE)
 
 test: build
-	docker run $(IMAGE) bundle exec rake
+	docker run --rm $(IMAGE) bundle exec rake
 
 push:
 	docker push $(IMAGE):$(VERSION)
 	docker push $(IMAGE):latest
+
+rmi:
 	docker rmi $(IMAGE):$(VERSION)
 	docker rmi $(IMAGE):latest
 
 # http://serverfault.com/questions/682340/update-the-container-of-a-service-in-amazon-ecs?rq=1
 deploy-ecs:
-# aws ecs register-task-definition --cli-input-json file://./aws_ecs/task-definition.json
 	./aws_ecs/register-task-definition.sh $(APP_NAME)
 	aws ecs update-service --service $(APP_NAME) --cluster $(ECS_CLUSTER) --region $(AWS_REGION) --task-definition $(APP_NAME)
