@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   match '/people/:person', to: 'people#show', person: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
   # done
   get '/people/:letter', to: 'people#letters', letter: /[A-Za-z]/, via: [:get]
-  # not done
+  # done
   get '/people/lookup', to: 'people#lookup'
-  # not done
+  # done
   get '/people/a_z_letters', to: 'people#a_z_letters'
   # done
   get '/people/:letters', to: 'people#lookup_by_letters'
@@ -63,13 +63,15 @@ Rails.application.routes.draw do
 
   # done
   match '/houses/:house', to: 'houses#show', house: /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, via: [:get]
-  # done, but not actually actionable as far as I can tell
+  # done
   get '/houses/lookup', to: 'houses#lookup'
   # done 
   get '/houses/:letters', to: 'houses#lookup_by_letters'
 
   resources :people, only: [:index] do
+    # done
     get '/constituencies', to: 'people#constituencies'
+    # working on it 
     get '/constituencies/current', to: 'people#current_constituency'
     get '/parties', to: 'people#parties'
     get '/parties/current', to: 'people#current_party'
