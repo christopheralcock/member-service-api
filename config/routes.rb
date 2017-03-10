@@ -71,13 +71,19 @@ Rails.application.routes.draw do
   resources :people, only: [:index] do
     # done
     get '/constituencies', to: 'people#constituencies'
-    # working on it 
+    # done 
     get '/constituencies/current', to: 'people#current_constituency'
+    # done
     get '/parties', to: 'people#parties'
+    # done
     get '/parties/current', to: 'people#current_party'
+    # done, but query doesnt seem to match route
     get '/contact_points',to: 'people#contact_points'
+    # done
     get '/houses',to: 'people#houses'
+    # done
     get '/houses/current', to: 'people#current_house'
+    # what is this? 
     get '/sittings', to: 'people#sittings'
   end
 
