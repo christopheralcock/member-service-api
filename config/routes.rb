@@ -68,6 +68,8 @@ Rails.application.routes.draw do
   # done 
   get '/houses/:letters', to: 'houses#lookup_by_letters'
 
+
+    # done
   resources :people, only: [:index] do
     # done
     get '/constituencies', to: 'people#constituencies'
@@ -87,6 +89,7 @@ Rails.application.routes.draw do
     get '/sittings', to: 'people#sittings'
   end
 
+    # done
   resources :contact_points, only: [:index, :show]
 
   resources :parties, only: [:index] do
