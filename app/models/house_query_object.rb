@@ -2,10 +2,8 @@ class HouseQueryObject
   extend QueryObject
 
   def self.all
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
           ?house
             a parl:House ;
         	  parl:houseName ?houseName .
@@ -15,14 +13,11 @@ class HouseQueryObject
              a parl:House ;
     			   parl:houseName ?houseName .
       }'
-    )
   end
 
   def self.lookup(source, id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?house
            a parl:House .
       }
@@ -32,14 +27,12 @@ class HouseQueryObject
 
 	      ?house a parl:House .
         ?house ?source ?id .
-      }")
+      }"
   end
 
   def self.find(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
           ?house
             a parl:House ;
             parl:houseName ?houseName .
@@ -50,13 +43,12 @@ class HouseQueryObject
           ?house
             a parl:House ;
             parl:houseName ?houseName .
-      }")
+      }"
   end
 
   def self.members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?person
         	  a parl:Person ;
             parl:personGivenName ?givenName ;
@@ -90,14 +82,12 @@ class HouseQueryObject
           	?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
           	?seat parl:houseSeatHasHouse ?house .
     	  }
-      }
-    ")
+      }"
   end
 
   def self.members_by_letter(id, letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?person
         	  a parl:Person ;
             parl:personGivenName ?givenName ;
@@ -133,14 +123,12 @@ class HouseQueryObject
     	  }
 
         FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -163,15 +151,12 @@ class HouseQueryObject
 
         BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-
-    ")
+      }"
   end
 
   def self.current_members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?person
         	  a parl:Person ;
             parl:personGivenName ?givenName ;
@@ -231,14 +216,12 @@ class HouseQueryObject
 
         OPTIONAL { ?person parl:personGivenName ?givenName . }
         OPTIONAL { ?person parl:personFamilyName ?familyName . }
-      }
-    ")
+      }"
   end
 
   def self.current_members_by_letter(id, letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?person
         	  a parl:Person ;
             parl:personGivenName ?givenName ;
@@ -300,14 +283,12 @@ class HouseQueryObject
         OPTIONAL { ?person parl:personFamilyName ?familyName . }
 
         FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_members_current(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -331,14 +312,12 @@ class HouseQueryObject
 
           BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ")
+      }"
   end
 
   def self.parties(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?house
         	a parl:House ;
         	parl:houseName ?houseName .
@@ -364,14 +343,12 @@ class HouseQueryObject
             		?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
             		?seat parl:houseSeatHasHouse ?house .
     		    }
-         }
-    ")
+         }"
   end
 
   def self.current_parties(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?house
         	a parl:House ;
         	parl:houseName ?houseName .
@@ -405,15 +382,12 @@ class HouseQueryObject
     		  }
         }
         GROUP BY ?party ?house ?houseName ?partyName
-      }
-    ")
+      }"
   end
 
   def self.party(house_id, party_id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
           ?house
             a parl:House ;
             parl:houseName ?houseName .
@@ -444,14 +418,12 @@ class HouseQueryObject
               	?seat parl:houseSeatHasHouse ?house .
     	      }
           }
-      }
-   ")
+      }"
   end
 
   def self.party_members(house_id, party_id)
-    self.uri_builder("
-	    PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
     	?person
         	a parl:Person ;
         	parl:personGivenName ?givenName ;
@@ -504,13 +476,11 @@ class HouseQueryObject
         			?seat parl:houseSeatHasHouse ?house .
     			}
         }
-      }
-    ")
+      }"
   end
 
   def self.party_members_letters(house_id, party_id, letter)
-    self.uri_builder("
-	    PREFIX parl: <http://id.ukpds.org/schema/>
+    "PREFIX parl: <http://id.ukpds.org/schema/>
       CONSTRUCT {
     	?person
         	a parl:Person ;
@@ -565,14 +535,12 @@ class HouseQueryObject
     			}
           FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
         }
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_party_members(house_id, party_id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -597,14 +565,12 @@ class HouseQueryObject
 
           BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ")
+      }"
   end
 
   def self.current_party_members(house_id, party_id)
-    self.uri_builder("
-	    PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
     	?person
         	a parl:Person ;
         	parl:personGivenName ?givenName ;
@@ -656,13 +622,11 @@ class HouseQueryObject
         			?seat parl:houseSeatHasHouse ?house .
     			}
         }
-      }
-    ")
+      }"
   end
 
   def self.current_party_members_letters(house_id, party_id, letter)
-    self.uri_builder("
-	    PREFIX parl: <http://id.ukpds.org/schema/>
+    "PREFIX parl: <http://id.ukpds.org/schema/>
       CONSTRUCT {
     	?person
         	a parl:Person ;
@@ -716,14 +680,12 @@ class HouseQueryObject
     			}
         }
         FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_party_members_current(house_id, party_id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -750,14 +712,12 @@ class HouseQueryObject
 
           BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ")
+      }"
   end
 
   def self.lookup_by_letters(letters)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?house
         	a parl:House ;
          	parl:houseName ?houseName .
@@ -767,7 +727,6 @@ class HouseQueryObject
         ?house parl:houseName ?houseName .
 
     	  FILTER(regex(str(?houseName), \"#{letters}\", 'i')) .
-      }
-    ")
+      }"
   end
 end

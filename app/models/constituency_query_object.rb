@@ -2,42 +2,41 @@ class ConstituencyQueryObject
   extend QueryObject
 
   def self.all
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
           ?constituencyGroup
             a parl:ConstituencyGroup ;
-            parl:constituencyGroupName ?name .
+            parl:constituencyGroupName ?name ;
+            parl:constituencyGroupEndDate ?endDate .
       }
       WHERE {
       	?constituencyGroup a parl:ConstituencyGroup .
           OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
-      }
-    ')
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?endDate . }
+
+      }'
   end
 
   def self.all_by_letter(letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
           ?constituencyGroup
               a parl:ConstituencyGroup ;
-              parl:constituencyGroupName ?name .
+              parl:constituencyGroupName ?name ;
+              parl:constituencyGroupEndDate ?endDate .
       }
       WHERE {
           ?constituencyGroup a parl:ConstituencyGroup .
           OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+          OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?endDate . }
+
     		  FILTER regex(str(?name), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -47,15 +46,12 @@ class ConstituencyQueryObject
 
           BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ')
+      }'
   end
 
   def self.lookup(source, id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?constituency
            a parl:ConstituencyGroup .
       }
@@ -65,14 +61,12 @@ class ConstituencyQueryObject
 
 	      ?constituency a parl:ConstituencyGroup .
         ?constituency ?source ?id .
-      }")
+      }"
   end
 
   def self.find(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
           ?constituencyGroup
             a parl:ConstituencyGroup ;
             parl:constituencyGroupEndDate ?endDate ;
@@ -120,49 +114,76 @@ class ConstituencyQueryObject
             OPTIONAL { ?member parl:personGivenName ?givenName . }
             OPTIONAL { ?member parl:personFamilyName ?familyName . }
           }
-      }
-    ")
+      }"
   end
 
   def self.all_current
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
           ?constituencyGroup
               a parl:ConstituencyGroup ;
-              parl:constituencyGroupName ?name .
+              parl:constituencyGroupName ?name ;
+        	  parl:constituencyGroupHasHouseSeat ?seat .
+    	  ?seat
+        	a parl:HouseSeat ;
+        	parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  ?seatIncumbency
+        	a parl:SeatIncumbency ;
+        	parl:incumbencyHasMember ?member .
+    	  ?member
+        	a parl:Person ;
+        	parl:personGivenName ?givenName ;
+        	parl:personFamilyName ?familyName .
       }
       WHERE {
           ?constituencyGroup a parl:ConstituencyGroup .
           FILTER NOT EXISTS { ?constituencyGroup a parl:PastConstituencyGroup . }
           OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
-      }
-    ')
+    	    ?constituencyGroup parl:constituencyGroupHasHouseSeat ?seat .
+    	    ?seat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	    FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
+    	    ?seatIncumbency parl:incumbencyHasMember ?member .
+    	    OPTIONAL { ?member parl:personGivenName ?givenName . }
+          OPTIONAL { ?member parl:personFamilyName ?familyName . }
+      }'
   end
 
   def self.all_current_by_letter(letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
           ?constituencyGroup
               a parl:ConstituencyGroup ;
-              parl:constituencyGroupName ?name .
+              parl:constituencyGroupName ?name ;
+        	    parl:constituencyGroupHasHouseSeat ?seat .
+    	  ?seat
+        	a parl:HouseSeat ;
+        	parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	  ?seatIncumbency
+        	a parl:SeatIncumbency ;
+        	parl:incumbencyHasMember ?member .
+    	  ?member
+        	a parl:Person ;
+        	parl:personGivenName ?givenName ;
+        	parl:personFamilyName ?familyName .
       }
       WHERE {
           ?constituencyGroup a parl:ConstituencyGroup .
           FILTER NOT EXISTS { ?constituencyGroup a parl:PastConstituencyGroup . }
           OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
+    	    ?constituencyGroup parl:constituencyGroupHasHouseSeat ?seat .
+    	    ?seat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
+    	    FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
+    	    ?seatIncumbency parl:incumbencyHasMember ?member .
+    	    OPTIONAL { ?member parl:personGivenName ?givenName . }
+          OPTIONAL { ?member parl:personFamilyName ?familyName . }
+
     		  FILTER regex(str(?name), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_current
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -173,15 +194,12 @@ class ConstituencyQueryObject
 
           BIND(ucase(SUBSTR(?constituencyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ')
+      }'
   end
 
   def self.members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
     	   	?constituencyGroup
             a parl:ConstituencyGroup ;
          		parl:constituencyGroupName ?name ;
@@ -214,15 +232,12 @@ class ConstituencyQueryObject
         	    OPTIONAL { ?member parl:personFamilyName ?familyName . }
           }
         }
-      }
-    ")
+      }"
   end
 
   def self.current_member(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT{
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT{
     	   	?constituencyGroup
             	a parl:ConstituencyGroup ;
          		  parl:constituencyGroupName ?name ;
@@ -254,14 +269,12 @@ class ConstituencyQueryObject
         	  OPTIONAL { ?member parl:personFamilyName ?familyName . }
           }
         }
-      }
-    ")
+      }"
   end
 
   def self.contact_point(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
       	?constituencyGroup a parl:ConstituencyGroup ;
         				parl:constituencyGroupHasHouseSeat ?houseSeat ;
         				parl:constituencyGroupName ?name .
@@ -308,14 +321,12 @@ class ConstituencyQueryObject
         		}
     		}
         OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
-      }
-    ")
+      }"
   end
 
   def self.lookup_by_letters(letters)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?constituency
         	a parl:ConstituencyGroup ;
          	parl:constituencyGroupName ?constituencyName .
@@ -325,7 +336,6 @@ class ConstituencyQueryObject
         ?constituency parl:constituencyGroupName ?constituencyName .
 
     	  FILTER(regex(str(?constituencyName), \"#{letters}\", 'i')) .
-      }
-    ")
+      }"
   end
 end

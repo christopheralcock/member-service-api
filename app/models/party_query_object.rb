@@ -2,10 +2,8 @@ class PartyQueryObject
   extend QueryObject
 
   def self.all
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party
            a parl:Party ;
            parl:partyName ?partyName .
@@ -15,15 +13,12 @@ class PartyQueryObject
           a parl:Party ;
           parl:partyHasPartyMembership ?partyMembership ;
           parl:partyName ?partyName .
-      }
-    ')
+      }'
   end
 
   def self.lookup(source, id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party
            a parl:Party .
       }
@@ -33,13 +28,12 @@ class PartyQueryObject
 
 	      ?party a parl:Party .
         ?party ?source ?id .
-      }")
+      }"
   end
 
   def self.all_current
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party
               a parl:Party ;
             	parl:partyName ?partyName .
@@ -52,14 +46,12 @@ class PartyQueryObject
         FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
         ?partyMembership parl:partyMembershipHasParty ?party .
         ?party parl:partyName ?partyName .
-      }
-    ')
+      }'
   end
 
   def self.a_z_letters_current
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -74,8 +66,7 @@ class PartyQueryObject
 
           BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ')
+      }'
   end
 
   def self.all_by_letter(letter)
@@ -97,9 +88,8 @@ class PartyQueryObject
   end
 
   def self.a_z_letters_all
-    self.uri_builder('
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    'PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -110,29 +100,37 @@ class PartyQueryObject
 
           BIND(ucase(SUBSTR(?partyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ')
+      }'
   end
 
   def self.find(id)
-    self.uri_builder("
-     PREFIX parl: <http://id.ukpds.org/schema/>
+    "PREFIX parl: <http://id.ukpds.org/schema/>
      CONSTRUCT {
-	      ?party a parl:Party;
-               parl:partyName ?name
+	      ?party a parl:Party ;
+               parl:partyName ?name ;
+               parl:count ?memberCount .
      }
-     WHERE {
-        BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
+      WHERE {
+    	  SELECT ?party ?name (COUNT(?member) AS ?memberCount)
+		    WHERE {
+          BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-	      ?party parl:partyName ?name
-      }
-    ")
+	        ?party parl:partyName ?name .
+          OPTIONAL {
+          	?party parl:partyHasPartyMembership ?partyMembership .
+    	  	  FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
+    	  	  ?partyMembership parl:partyMembershipHasPartyMember ?member .
+    	  	  ?member parl:memberHasIncumbency ?incumbency .
+    	  	  FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
+          }
+        }
+      GROUP BY ?party ?name
+    }"
   end
 
   def self.members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party a parl:Party ;
             parl:partyName ?partyName .
         ?person a parl:Person ;
@@ -157,14 +155,12 @@ class PartyQueryObject
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
         }
-      }
-    ")
+      }"
   end
 
   def self.members_by_letter(id, letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party a parl:Party ;
             parl:partyName ?partyName .
         ?person a parl:Person ;
@@ -190,14 +186,12 @@ class PartyQueryObject
 
           FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
         }
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -210,14 +204,12 @@ class PartyQueryObject
 
           BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ")
+      }"
   end
 
   def self.current_members(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party a parl:Party ;
             parl:partyName ?partyName .
         ?person a parl:Person ;
@@ -243,14 +235,12 @@ class PartyQueryObject
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
         }
-      }
-      ")
+      }"
   end
 
   def self.current_members_by_letter(id, letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party a parl:Party ;
             parl:partyName ?partyName .
         ?person a parl:Person ;
@@ -277,14 +267,12 @@ class PartyQueryObject
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
         }
           FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
-       }
-     ")
+       }"
   end
 
   def self.a_z_letters_members_current(id)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
          _:x parl:value ?firstLetter .
       }
       WHERE {
@@ -300,14 +288,12 @@ class PartyQueryObject
 
           BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
         }
-      }
-    ")
+      }"
   end
 
   def self.lookup_by_letters(letters)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party
         	a parl:Party ;
          	parl:partyName ?partyName .
@@ -317,7 +303,6 @@ class PartyQueryObject
         ?party parl:partyName ?partyName .
 
     	  FILTER(regex(str(?partyName), \"#{letters}\", 'i')) .
-      }
-    ")
+      }"
   end
 end

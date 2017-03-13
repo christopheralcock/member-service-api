@@ -85,8 +85,6 @@ Rails.application.routes.draw do
     get '/houses',to: 'people#houses'
     # done
     get '/houses/current', to: 'people#current_house'
-    # what is this? 
-    get '/sittings', to: 'people#sittings'
   end
 
     # done
@@ -110,7 +108,9 @@ Rails.application.routes.draw do
   resources :constituencies, only: [:index] do
     # done
     get '/members', to: 'constituencies#members'
+    # done 
     get '/members/current', to: 'constituencies#current_member'
+    # done 
     get '/contact_point', to: 'constituencies#contact_point'
   end
 

@@ -1,13 +1,13 @@
 class ContactPointsController < ApplicationController
   def index
-    uri = ContactPointQueryObject.all
-    response_streamer(uri)
+    query = ContactPointQueryObject.all
+    response_streamer(query)
   end
 
   def show
     id = params[:id]
-    uri = ContactPointQueryObject.find(id)
-    response_streamer(uri)
+    query = ContactPointQueryObject.find(id)
+    response_streamer(query)
   end
 
 
