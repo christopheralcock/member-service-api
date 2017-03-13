@@ -91,17 +91,24 @@ Rails.application.routes.draw do
 
     # done
   resources :contact_points, only: [:index, :show]
-
+    # done 
   resources :parties, only: [:index] do
+    # done 
     get '/members', to: 'parties#members'
+    # done
     get '/members/current', to: 'parties#current_members'
+    # done
     match '/members/:letter', to: 'parties#members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get '/members/a_z_letters', to: 'parties#a_z_letters_members'
+    # done
     match '/members/current/:letter', to: 'parties#current_members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get '/members/current/a_z_letters', to: 'parties#a_z_letters_members_current'
   end
-
+    # done 
   resources :constituencies, only: [:index] do
+    # done
     get '/members', to: 'constituencies#members'
     get '/members/current', to: 'constituencies#current_member'
     get '/contact_point', to: 'constituencies#contact_point'
