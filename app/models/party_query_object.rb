@@ -134,6 +134,8 @@ class PartyQueryObject
         ?person a parl:Person ;
             parl:personGivenName ?givenName ;
             parl:personFamilyName ?familyName ;
+            <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             parl:partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership a parl:PartyMembership ;
             parl:partyMembershipStartDate ?startDate ;
@@ -152,6 +154,8 @@ class PartyQueryObject
 
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
       }"
   end
@@ -164,6 +168,8 @@ class PartyQueryObject
         ?person a parl:Person ;
             parl:personGivenName ?givenName ;
             parl:personFamilyName ?familyName ;
+            <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             parl:partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership a parl:PartyMembership ;
             parl:partyMembershipStartDate ?startDate ;
@@ -181,8 +187,10 @@ class PartyQueryObject
 
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-          FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+          FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
         }
       }"
   end
@@ -198,9 +206,9 @@ class PartyQueryObject
 
 	        ?party parl:partyHasPartyMembership ?partyMembership .
           ?partyMembership parl:partyMembershipHasPartyMember ?person .
-          ?person parl:personFamilyName ?familyName .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-          BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }"
   end
@@ -213,6 +221,8 @@ class PartyQueryObject
         ?person a parl:Person ;
             parl:personGivenName ?givenName ;
             parl:personFamilyName ?familyName ;
+            <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             parl:partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership a parl:PartyMembership ;
             parl:partyMembershipStartDate ?startDate .
@@ -232,6 +242,8 @@ class PartyQueryObject
 
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
       }"
   end
@@ -244,6 +256,8 @@ class PartyQueryObject
         ?person a parl:Person ;
             parl:personGivenName ?givenName ;
             parl:personFamilyName ?familyName ;
+            <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+            <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
             parl:partyMemberHasPartyMembership ?partyMembership .
         ?partyMembership a parl:PartyMembership ;
             parl:partyMembershipStartDate ?startDate .
@@ -263,8 +277,10 @@ class PartyQueryObject
 
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
         }
-          FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+          FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
        }"
   end
 
@@ -282,9 +298,9 @@ class PartyQueryObject
           ?partyMembership parl:partyMembershipHasPartyMember ?person .
           ?person parl:memberHasIncumbency ?incumbency .
           FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
-          ?person parl:personFamilyName ?familyName .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-          BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }"
   end

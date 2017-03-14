@@ -10,7 +10,7 @@ class ContactPointQueryObject
                parl:phoneNumber ?phoneNumber ;
                parl:faxNumber ?faxNumber ;
                parl:contactPointHasPostalAddress ?postalAddress .
-            ?postalAddress a parl:PostalAddress ;
+           ?postalAddress a parl:PostalAddress ;
                        parl:postCode ?postCode ;
                			   parl:addressLine1 ?addressLine1 ;
                			   parl:addressLine2 ?addressLine2 ;
@@ -59,7 +59,8 @@ class ContactPointQueryObject
     		?person
               a parl:Person ;
               parl:personGivenName ?givenName ;
-        			parl:personFamilyName ?familyName .
+        			parl:personFamilyName ?familyName ;
+              <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs .
         }
         WHERE {
     		BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?contactPoint )
@@ -81,6 +82,7 @@ class ContactPointQueryObject
         		  ?incumbency parl:incumbencyHasMember ?person .
         		  OPTIONAL { ?person parl:personFamilyName ?familyName . }
         		  OPTIONAL { ?person parl:personGivenName ?givenName . }
+              OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
             }
       }"
   end

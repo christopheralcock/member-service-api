@@ -11,6 +11,8 @@ class MemberQueryObject
           a parl:Person ;
           parl:personGivenName ?givenName ;
           parl:personFamilyName ?familyName ;
+          <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+          <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
           parl:memberHasIncumbency ?incumbency ;
           parl:partyMemberHasPartyMembership ?partyMembership .
         ?seatIncumbency
@@ -35,6 +37,8 @@ class MemberQueryObject
                 parl:memberHasIncumbency ?incumbency .
         OPTIONAL { ?person parl:personGivenName ?givenName . }
         OPTIONAL { ?person parl:personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
          { ?incumbency a parl:HouseIncumbency .
             BIND(?incumbency AS ?houseIncumbency)
@@ -69,6 +73,8 @@ class MemberQueryObject
          a parl:Person ;
          parl:personGivenName ?givenName ;
          parl:personFamilyName ?familyName ;
+         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
          parl:memberHasIncumbency ?incumbency ;
          parl:partyMemberHasPartyMembership ?partyMembership .
         ?seatIncumbency
@@ -101,6 +107,9 @@ class MemberQueryObject
                 parl:memberHasIncumbency ?incumbency .
         OPTIONAL { ?person parl:personGivenName ?givenName . }
         OPTIONAL { ?person parl:personFamilyName ?familyName . }
+        OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+        ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
          { ?incumbency a parl:HouseIncumbency .
             BIND(?incumbency AS ?houseIncumbency)
             ?houseIncumbency parl:houseIncumbencyHasHouse ?house .
@@ -126,7 +135,7 @@ class MemberQueryObject
          OPTIONAL { ?partyMembership parl:partyMembershipEndDate ?partyMembershipEndDate . }
          ?party parl:partyName ?partyName .
 
-    	   FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+    	   FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
       }"
   end
 
@@ -139,9 +148,9 @@ class MemberQueryObject
         SELECT DISTINCT ?firstLetter WHERE {
 	        ?Incumbency a parl:Incumbency ;
                         parl:incumbencyHasMember ?person .
-          ?person parl:personFamilyName ?familyName .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-          BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }'
   end
@@ -157,6 +166,8 @@ class MemberQueryObject
          a parl:Person ;
          parl:personGivenName ?givenName ;
          parl:personFamilyName ?familyName ;
+         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
          parl:memberHasIncumbency ?incumbency ;
          parl:partyMemberHasPartyMembership ?partyMembership .
         ?seatIncumbency
@@ -189,6 +200,9 @@ class MemberQueryObject
           parl:memberHasIncumbency ?incumbency .
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
            { ?incumbency a parl:HouseIncumbency .
               BIND(?incumbency AS ?houseIncumbency)
               ?houseIncumbency parl:houseIncumbencyHasHouse ?house .
@@ -229,6 +243,8 @@ class MemberQueryObject
          a parl:Person ;
          parl:personGivenName ?givenName ;
          parl:personFamilyName ?familyName ;
+         <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs ;
+         <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs ;
          parl:memberHasIncumbency ?incumbency ;
          parl:partyMemberHasPartyMembership ?partyMembership .
         ?seatIncumbency
@@ -261,6 +277,9 @@ class MemberQueryObject
           parl:memberHasIncumbency ?incumbency .
           OPTIONAL { ?person parl:personGivenName ?givenName . }
           OPTIONAL { ?person parl:personFamilyName ?familyName . }
+          OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+
            { ?incumbency a parl:HouseIncumbency .
               BIND(?incumbency AS ?houseIncumbency)
               ?houseIncumbency parl:houseIncumbencyHasHouse ?house .
@@ -287,7 +306,7 @@ class MemberQueryObject
          ?partyMembership parl:partyMembershipStartDate ?partyMembershipStartDate .
          OPTIONAL { ?partyMembership parl:partyMembershipEndDate ?partyMembershipEndDate . }
          FILTER NOT EXISTS {?incumbency a parl:PastIncumbency}
-         FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+         FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
        }"
   end
 
@@ -301,8 +320,8 @@ class MemberQueryObject
 	        ?incumbency a parl:Incumbency ;
           FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency .	}
           ?incumbency parl:incumbencyHasMember ?person .
-          ?person parl:personFamilyName ?familyName .
-          BIND(ucase(SUBSTR(?familyName, 1, 1)) as ?firstLetter)
+          ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }'
   end
