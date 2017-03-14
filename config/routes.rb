@@ -114,21 +114,37 @@ Rails.application.routes.draw do
     get '/contact_point', to: 'constituencies#contact_point'
   end
 
+    # done 
   resources :houses, only: [:index] do
+    # done
     get '/members', to: 'houses#members'
+    # done 
     get '/members/current', to: 'houses#current_members'
+    # done 
     get '/parties', to: 'houses#parties'
+    # done
     get '/parties/current', to: 'houses#current_parties'
+    # done 
     get '/parties/:party_id', to: 'houses#party'
+    # done,but it's houses#members_by_letter 
     match '/members/:letter', to: 'houses#members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get '/members/a_z_letters', to: 'houses#a_z_letters_members'
+    # done 
     match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get '/members/current/a_z_letters', to: 'houses#a_z_letters_members'
+    # done 
     get '/parties/:party_id/members', to: 'houses#party_members'
+    # done
     match '/parties/:party_id/members/:letter', to: 'houses#party_members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get 'parties/:party_id/members/a_z_letters', to: 'houses#a_z_letters_party_members'
+    # done 
     get '/parties/:party_id/members/current', to: 'houses#current_party_members'
+    # done 
     match '/parties/:party_id/members/current/:letter', to: 'houses#current_party_members_letters', letter: /[A-Za-z]/, via: [:get]
+    # done 
     get 'parties/:party_id/members/current/a_z_letters', to: 'houses#a_z_letters_party_members_current'
   end
 end
