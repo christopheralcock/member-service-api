@@ -70,9 +70,8 @@ class PartyQueryObject
   end
 
   def self.all_by_letter(letter)
-    self.uri_builder("
-      PREFIX parl: <http://id.ukpds.org/schema/>
-      CONSTRUCT {
+    "PREFIX parl: <http://id.ukpds.org/schema/>
+     CONSTRUCT {
         ?party
            a parl:Party ;
            parl:partyName ?partyName .
@@ -83,8 +82,7 @@ class PartyQueryObject
               parl:partyName ?partyName .
 
         FILTER regex(str(?partyName), \"^#{letter}\", 'i') .
-      }
-    ")
+      }"
   end
 
   def self.a_z_letters_all
