@@ -113,7 +113,8 @@ class PartyQueryObject
 		    WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-	        ?party parl:partyName ?name .
+          ?party a parl:Party ;
+	               parl:partyName ?name .
           OPTIONAL {
           	?party parl:partyHasPartyMembership ?partyMembership .
     	  	  FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
@@ -144,7 +145,8 @@ class PartyQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-      	?party parl:partyName ?partyName .
+        ?party a parl:Party ;
+      	       parl:partyName ?partyName .
 
         OPTIONAL {
           ?party parl:partyHasPartyMembership ?partyMembership .
@@ -178,7 +180,8 @@ class PartyQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-      	?party parl:partyName ?partyName .
+        ?party a parl:Party ;
+      	       parl:partyName ?partyName .
         OPTIONAL {
           ?party parl:partyHasPartyMembership ?partyMembership .
           ?partyMembership parl:partyMembershipHasPartyMember ?person .
@@ -204,7 +207,8 @@ class PartyQueryObject
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-	        ?party parl:partyHasPartyMembership ?partyMembership .
+          ?party a parl:Party ;
+	               parl:partyHasPartyMembership ?partyMembership .
           ?partyMembership parl:partyMembershipHasPartyMember ?person .
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
@@ -230,7 +234,8 @@ class PartyQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-      	?party parl:partyName ?partyName .
+        ?party a parl:Party ;
+      	       parl:partyName ?partyName .
 
         OPTIONAL {
           ?party parl:partyHasPartyMembership ?partyMembership .
@@ -265,7 +270,8 @@ class PartyQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-      	?party parl:partyName ?partyName .
+        ?party a parl:Party ;
+      	       parl:partyName ?partyName .
 
         OPTIONAL {
           ?party parl:partyHasPartyMembership ?partyMembership .
@@ -293,7 +299,8 @@ class PartyQueryObject
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?party)
 
-	        ?party parl:partyHasPartyMembership ?partyMembership .
+          ?party a parl:Party ;
+	               parl:partyHasPartyMembership ?partyMembership .
           FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
           ?partyMembership parl:partyMembershipHasPartyMember ?person .
           ?person parl:memberHasIncumbency ?incumbency .

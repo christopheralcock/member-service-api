@@ -67,7 +67,8 @@ class HouseQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-        ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+               parl:houseName ?houseName .
     	  ?person a parl:Member .
     	  ?incumbency parl:incumbencyHasMember ?person ;
        				      parl:incumbencyStartDate ?incumbencyStartDate .
@@ -109,7 +110,8 @@ class HouseQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-        ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+               parl:houseName ?houseName .
     	  ?person a parl:Member .
     	  ?incumbency parl:incumbencyHasMember ?person ;
        				      parl:incumbencyStartDate ?incumbencyStartDate .
@@ -128,7 +130,7 @@ class HouseQueryObject
           	?seat parl:houseSeatHasHouse ?house .
     	  }
 
-        FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+        FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
       }"
   end
 
@@ -139,23 +141,24 @@ class HouseQueryObject
       }
       WHERE {
         SELECT DISTINCT ?firstLetter WHERE {
-        BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
+          BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-	      ?house parl:houseName ?houseName .
-    	  ?person a parl:Member ;
-                <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
-    	  ?incumbency parl:incumbencyHasMember ?person .
+          ?house a parl:House ;
+	               parl:houseName ?houseName .
+    	    ?person a parl:Member ;
+                  <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
+    	    ?incumbency parl:incumbencyHasMember ?person .
 
-    	  {
-    	      ?incumbency parl:houseIncumbencyHasHouse ?house .
-    	  }
+    	    {
+    	        ?incumbency parl:houseIncumbencyHasHouse ?house .
+    	    }
 
-    	  UNION {
-          	?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
-          	?seat parl:houseSeatHasHouse ?house .
-    	  }
+    	    UNION {
+            	?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
+            	?seat parl:houseSeatHasHouse ?house .
+    	    }
 
-        BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
+          BIND(ucase(SUBSTR(?listAs, 1, 1)) as ?firstLetter)
         }
       }"
   end
@@ -198,7 +201,8 @@ class HouseQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-        ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+               parl:houseName ?houseName .
     	  ?person a parl:Member .
     	  ?person parl:partyMemberHasPartyMembership ?partyMembership .
     	  FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
@@ -266,7 +270,8 @@ class HouseQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-        ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+               parl:houseName ?houseName .
     	  ?person a parl:Member .
     	  ?person parl:partyMemberHasPartyMembership ?partyMembership .
     	  FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
@@ -294,7 +299,7 @@ class HouseQueryObject
         OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
         ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
 
-        FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+        FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
       }"
   end
 
@@ -307,7 +312,8 @@ class HouseQueryObject
         SELECT DISTINCT ?firstLetter WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-	        ?house parl:houseName ?houseName .
+          ?house a parl:House ;
+	               parl:houseName ?houseName .
     	    ?person a parl:Member;
        			      <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     	    ?incumbency parl:incumbencyHasMember ?person .
@@ -340,7 +346,8 @@ class HouseQueryObject
           WHERE {
         	  BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-            ?house parl:houseName ?houseName .
+            ?house a parl:House ;
+                   parl:houseName ?houseName .
             ?person a parl:Member .
         	  ?incumbency parl:incumbencyHasMember ?person .
     		    ?person parl:partyMemberHasPartyMembership ?partyMembership .
@@ -375,7 +382,8 @@ class HouseQueryObject
 
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?house)
 
-          ?house parl:houseName ?houseName .
+          ?house a parl:House ;
+                 parl:houseName ?houseName .
           ?person a parl:Member .
           ?incumbency parl:incumbencyHasMember ?person .
           FILTER NOT EXISTS { ?incumbency a parl:PastIncumbency . }
@@ -410,11 +418,13 @@ class HouseQueryObject
       WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
 
-          ?house parl:houseName ?houseName .
+          ?house a parl:House ;
+                 parl:houseName ?houseName .
 
           OPTIONAL {
             BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+            ?party a parl:Party .
     		    ?person a parl:Member .
     		    ?person parl:partyMemberHasPartyMembership ?partyMembership .
     		    ?partyMembership parl:partyMembershipHasParty ?party .
@@ -462,11 +472,13 @@ class HouseQueryObject
       WHERE {
       	BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
 
-    	  ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+    	         parl:houseName ?houseName .
 
         OPTIONAL {
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?party a parl:Party .
           ?person a parl:Member .
     		  ?person parl:partyMemberHasPartyMembership ?partyMembership .
     		  ?partyMembership parl:partyMembershipHasParty ?party .
@@ -524,11 +536,13 @@ class HouseQueryObject
       WHERE {
       	BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
 
-    	  ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+    	         parl:houseName ?houseName .
 
         OPTIONAL {
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?party a parl:Party .
           ?person a parl:Member .
     		  ?person parl:partyMemberHasPartyMembership ?partyMembership .
     		  ?partyMembership parl:partyMembershipHasParty ?party .
@@ -553,7 +567,7 @@ class HouseQueryObject
         			?incumbency parl:seatIncumbencyHasHouseSeat ?seat .
         			?seat parl:houseSeatHasHouse ?house .
     			}
-          FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+          FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
         }
       }"
   end
@@ -568,6 +582,8 @@ class HouseQueryObject
           BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?house a parl:House .
+          ?party a parl:Party .
     	    ?person a parl:Member .
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     	    ?person parl:partyMemberHasPartyMembership ?partyMembership .
@@ -615,11 +631,13 @@ class HouseQueryObject
       WHERE {
       	BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
 
-    	  ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+    	         parl:houseName ?houseName .
 
         OPTIONAL {
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?party a parl:Party .
           ?person a parl:Member .
     		  ?person parl:partyMemberHasPartyMembership ?partyMembership .
           FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
@@ -676,11 +694,13 @@ class HouseQueryObject
       WHERE {
       	BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
 
-    	  ?house parl:houseName ?houseName .
+        ?house a parl:House ;
+    	         parl:houseName ?houseName .
 
         OPTIONAL {
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?party a parl:Party .
           ?person a parl:Member .
     		  ?person parl:partyMemberHasPartyMembership ?partyMembership .
           FILTER NOT EXISTS { ?partyMembership a parl:PastPartyMembership . }
@@ -707,7 +727,7 @@ class HouseQueryObject
         			?seat parl:houseSeatHasHouse ?house .
     			}
         }
-        FILTER regex(str(?familyName), \"^#{letter}\", 'i') .
+        FILTER regex(str(?listAs), \"^#{letter}\", 'i') .
       }"
   end
 
@@ -721,6 +741,8 @@ class HouseQueryObject
           BIND(<#{DATA_URI_PREFIX}/#{house_id}> AS ?house)
           BIND(<#{DATA_URI_PREFIX}/#{party_id}> AS ?party)
 
+          ?house a parl:House .
+          ?party a parl:Party .
     	    ?person a parl:Member .
           ?person <http://example.com/A5EE13ABE03C4D3A8F1A274F57097B6C> ?listAs .
     	    ?person parl:partyMemberHasPartyMembership ?partyMembership .

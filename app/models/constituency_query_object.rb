@@ -225,7 +225,9 @@ class ConstituencyQueryObject
       }
       WHERE {
         BIND( <#{DATA_URI_PREFIX}/#{id}> AS ?constituencyGroup )
-    	  ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+
+        ?constituencyGroup a parl:ConstituencyGroup ;
+    	                    parl:constituencyGroupHasHouseSeat ?houseSeat .
     	  OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
         OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?constituencyGroupEndDate . }
         OPTIONAL { ?constituencyGroup parl:constituencyGroupStartDate ?constituencyGroupStartDate . }
@@ -250,6 +252,7 @@ class ConstituencyQueryObject
             	a parl:ConstituencyGroup ;
          		  parl:constituencyGroupName ?name ;
               parl:constituencyGroupStartDate ?constituencyGroupStartDate ;
+              parl:constituencyGroupEndDate ?constituencyGroupEndDate ;
          		  parl:constituencyGroupHasHouseSeat ?houseSeat .
          	?houseSeat a parl:HouseSeat ;
                      parl:houseSeatHasSeatIncumbency ?seatIncumbency .
@@ -264,9 +267,12 @@ class ConstituencyQueryObject
       }
       WHERE {
         BIND( <#{DATA_URI_PREFIX}/#{id}> AS ?constituencyGroup )
-    	  ?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
+
+        ?constituencyGroup a parl:ConstituencyGroup ;
+    	                     parl:constituencyGroupHasHouseSeat ?houseSeat .
     	  OPTIONAL { ?constituencyGroup parl:constituencyGroupName ?name . }
         OPTIONAL { ?constituencyGroup parl:constituencyGroupStartDate ?constituencyGroupStartDate . }
+        OPTIONAL { ?constituencyGroup parl:constituencyGroupEndDate ?constituencyGroupEndDate . }
     	  OPTIONAL {
           ?houseSeat parl:houseSeatHasSeatIncumbency ?seatIncumbency .
           FILTER NOT EXISTS { ?seatIncumbency a parl:PastIncumbency . }
@@ -308,6 +314,8 @@ class ConstituencyQueryObject
       }
       WHERE {
     	BIND( <#{DATA_URI_PREFIX}/#{id}> AS ?constituencyGroup )
+
+      ?constituencyGroup a parl:ConstituencyGroup .
       	 OPTIONAL {
         	?constituencyGroup parl:constituencyGroupHasHouseSeat ?houseSeat .
         	OPTIONAL {

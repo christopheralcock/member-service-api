@@ -124,6 +124,8 @@ class PersonQueryObject
       }
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
+
+        ?person a parl:Person .
         OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personOtherNames ?otherName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
@@ -201,6 +203,7 @@ class PersonQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+        ?person a parl:Person .
         OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -242,6 +245,7 @@ class PersonQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+        ?person a parl:Person .
         OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -278,6 +282,7 @@ class PersonQueryObject
        WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+          ?person a parl:Person .
           OPTIONAL { ?person parl:personGivenName ?givenName } .
           OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -310,6 +315,7 @@ class PersonQueryObject
        WHERE {
           BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+          ?person a parl:Person .
           OPTIONAL { ?person parl:personGivenName ?givenName } .
           OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	    OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -354,6 +360,7 @@ class PersonQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+        ?person a parl:Person .
     	  OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -410,6 +417,7 @@ class PersonQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+        ?person a parl:Person .
         OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .
@@ -464,6 +472,7 @@ class PersonQueryObject
       WHERE {
         BIND(<#{DATA_URI_PREFIX}/#{id}> AS ?person)
 
+        ?person a parl:Person .
         OPTIONAL { ?person parl:personGivenName ?givenName } .
         OPTIONAL { ?person parl:personFamilyName ?familyName } .
     	  OPTIONAL { ?person <http://example.com/F31CBD81AD8343898B49DC65743F0BDF> ?displayAs } .

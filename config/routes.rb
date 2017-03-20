@@ -132,8 +132,8 @@ Rails.application.routes.draw do
     get '/members/a_z_letters', to: 'houses#a_z_letters_members'
     # done 
     match '/members/current/:letter', to: 'houses#current_members_letters', letter: /[A-Za-z]/, via: [:get]
-    # done 
-    get '/members/current/a_z_letters', to: 'houses#a_z_letters_members'
+    # doing  
+    get '/members/current/a_z_letters', to: 'houses#a_z_letters_members_current'
     # done 
     get '/parties/:party_id/members', to: 'houses#party_members'
     # done
